@@ -309,8 +309,8 @@ class Weixinpay {
             $result=json_decode($result,true);
             $openid=$result['openid'];
             // 根据订单号在数据库查询所需数据
-        $result = Db::name('bill')->where('bill_wechatSerialNum',$out_trade_no)->find();
-        $money = ($result['bill_money'])*100;
+            $result = Db::name('bill')->where('bill_wechatSerialNum',$out_trade_no)->find();
+            $money = ($result['bill_money'])*100;
             // 订单数据  请根据订单号out_trade_no 从数据库中查出实际的body、total_fee、out_trade_no、product_id
             $order=array(
                 'body'=>'共享雨伞',// 商品描述（需要根据自己的业务修改）
