@@ -6,7 +6,7 @@
 简介
 ===============
 在使用ThinkPHP5做项目的工程中，整合的一些常用的、重要的功能和第三方sdk。
-共享给大家以做参考（附上白神github:https://github.com/baijunyao/thinkphp-bjyadmin。一部分功能是借鉴他的，后面自己移植到TP5上面了）
+共享给大家以做参考（附上白神github:https://github.com/baijunyao/thinkphp-bjyadmin  一部分功能是借鉴他的，后面自己移植到TP5上面了）
 功能基本上都是我在实际项目中使用过的，绝对无毒无害无残留，请放心使用。  （如果出事了，也请别责难我~~~~(>_<)~~~~)）
 
 说明
