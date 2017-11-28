@@ -16,7 +16,7 @@ class QrC extends Controller
         $url = 'https://www.hanjiaxin.com';
         $qrCode->setText($url)
             ->setSize(300) // 大小
-            ->setLabelFontPath(VENDOR_PATH.'endroid\qrcode\assets\noto_sans.otf')
+            ->setLabelFontPath(VENDOR_PATH.'endroid/qrcode/assets/noto_sans.otf')
             ->setErrorCorrectionLevel('high')
             ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
             ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
