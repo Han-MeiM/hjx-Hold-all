@@ -25,12 +25,14 @@
 ===============
 1、[工具箱之独立封装阿里大于](https://www.hanjiaxin.com/article/3)  
 2、[工具箱之微信公众号支付](https://www.hanjiaxin.com/article/6)  
+3、[工具箱之endroid生成二维码](https://www.hanjiaxin.com/article/9)  
 持续更新中...
 
 所有功能
 ===============
 1、阿里大于  
 2、微信公众号支付
+3、生成二维码
 
 ## 版权信息
 
