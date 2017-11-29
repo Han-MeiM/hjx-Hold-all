@@ -1,6 +1,5 @@
 <?php
-
-// 应用公共文件
+use Endroid\QrCode\QrCode;
 /**
  * curl 请求http
  */
@@ -16,4 +15,24 @@ function curl_get_contents($url){
     $r=curl_exec($ch);
     curl_close($ch);
     return $r;
+}
+
+/**
+ * @param $url 二维码中的内容，加http://这样扫码可以直接跳转url
+ * @param $message 二维码下方注释
+ * @param int $size 二维码大小
+ * @return string 二维码
+ */
+function qrcode($url,$message='',$size = 300){
+    $qrCode=new QrCode();
+    $qrCode->setText($url)
+        ->setSize($size) // 大小
+        ->setLabelFontPath(VENDOR_PATH.'endroid/qrcode/assets/noto_sans.otf')
+        ->setErrorCorrectionLevel('high')
+        ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
+        ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
+        ->setLabel($message) // 二维码下方注释
+        ->setLabelFontSize(16);
+    header('Content-Type: '.$qrCode->getContentType());
+    return $qrCode->writeString();
 }
