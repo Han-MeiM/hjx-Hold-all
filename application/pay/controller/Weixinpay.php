@@ -40,7 +40,7 @@ class Weixinpay extends Controller{
     }
 
     /**
-     * 微信 公众号jssdk支付
+     * 微信 公众号jssdk支付 生成订单号后去调取支付
      */
     public function wexinpay_js(){
         // 此处根据实际业务情况生成订单 然后拿着订单去支付
@@ -50,6 +50,23 @@ class Weixinpay extends Controller{
         $url=url('pay/weixinpay/pay',['out_trade_no'=>$out_trade_no]);
         // 前往支付
         $this->redirect($url);
+    }
+
+    /**
+     * 微信二维码支付
+     * body(产品描述)、total_fee(订单金额)、out_trade_no(订单号)、product_id(产品id)
+     */
+    public function qr_pay()
+    {
+        // 虚拟的订单 请根据实际业务更改
+        $time=time();
+        $order=array(
+            'body'=>'test',
+            'total_fee'=>1,
+            'out_trade_no'=>strval($time),
+            'product_id'=>1
+        );
+        weixinpay($order);
     }
 
 }
