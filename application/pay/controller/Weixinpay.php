@@ -1,7 +1,6 @@
 <?php
 namespace app\pay\controller;
 use think\Controller;
-use think\Db;
 class Weixinpay extends Controller{
 
     /**
