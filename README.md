@@ -27,6 +27,7 @@
 2、[工具箱之微信公众号支付](https://www.hanjiaxin.com/article/6)  
 3、[工具箱之endroid生成二维码](https://www.hanjiaxin.com/article/9)  
 4、[工具箱之微信二维码支付](https://www.hanjiaxin.com/article/10)  
+5、[工具箱之发送邮件](https://www.hanjiaxin.com/article/11)  
 持续更新中...
 
 所有功能
