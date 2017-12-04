@@ -14,11 +14,7 @@ class Weixinpay {
      */
     public function unifiedOrder($order){
         // 生成随机加密盐
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $nonce_str = '';
-        for ( $i = 0; $i < 4; $i++ ) { 
-            $nonce_str .= substr($chars, mt_rand(0, strlen($chars)-1), 1); 
-        } 
+        $nonce_str = $this->makeCode(4);
         // 获取配置项
         $config=array(
             'appid'=>config('wxpay.APPID'),
@@ -116,18 +112,18 @@ class Weixinpay {
      * 查询退款
      */
     public function refundquery(){
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $nonce_str = '';
-        for ( $i = 0; $i < 4; $i++ ) {
-            $nonce_str .= substr($chars, mt_rand(0, strlen($chars)-1), 1);
-        }
+        // 生成随机加密盐
+        $nonce_str = $this->makeCode(4);
         // 获取配置项
         $data=array(
-            'appid'=>config('wxpay.APPID'),
-            'mch_id'=>config('wxpay.MCHID'),
-            'nonce_str'=>$nonce_str,
-            'transaction_id'=>'4001722001201709101302301620'
+            'appid' => config('wxpay.APPID'),   // 公众账号ID
+            'mch_id' => config('wxpay.MCHID'),  // 商户号
+            'nonce_str' => $nonce_str,          // 随机字符串
+            'transaction_id' => '',             // 微信订单号
+            'out_trade_no' => '',               // 商户订单号，与微信订单号可二选一只填写一个
+            'sign_type' => 'MD5'                // 加密方式
         );
+        // 加密
         $sign=$this->makeSign($data);
         $data['sign']=$sign;
         $xml=$this->toXml($data);
@@ -283,6 +279,19 @@ class Weixinpay {
     }
 
     /**
+     * 生成随机串
+     * @param $count 随机串个数
+     */
+    public function makeCode($count)
+    {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $nonce_str = '';
+        for ( $i = 0; $i < $count; $i++ ) {
+            $nonce_str .= substr($chars, mt_rand(0, strlen($chars)-1), 1);
+        }
+    }
+
+    /**
      * 获取jssdk需要用到的数据
      * @return array jssdk需要用到的数据
      */
@@ -308,13 +317,10 @@ class Weixinpay {
             $result=$this->curl_get_contents($url);
             $result=json_decode($result,true);
             $openid=$result['openid'];
-            // 根据订单号在数据库查询所需数据
-            $result = Db::name('bill')->where('bill_wechatSerialNum',$out_trade_no)->find();
-            $money = ($result['bill_money'])*100;
             // 订单数据  请根据订单号out_trade_no 从数据库中查出实际的body、total_fee、out_trade_no、product_id
             $order=array(
-                'body'=>'共享雨伞',// 商品描述（需要根据自己的业务修改）
-                'total_fee'=>$money,// 订单金额  以(分)为单位（需要根据自己的业务修改）
+                'body'=>'微信支付',// 商品描述（需要根据自己的业务修改）
+                'total_fee'=>1,// 订单金额  以(分)为单位（需要根据自己的业务修改）
                 'out_trade_no'=>$out_trade_no,// 订单号（需要根据自己的业务修改）
                 'product_id'=>'1',// 商品id（需要根据自己的业务修改）
                 'trade_type'=>'JSAPI',// JSAPI公众号支付
