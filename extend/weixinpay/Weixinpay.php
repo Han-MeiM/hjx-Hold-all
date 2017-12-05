@@ -4,8 +4,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 // 定义时区
 ini_set('date.timezone','Asia/Shanghai');
-use think\Cache;
-use think\Db;
 
 class Weixinpay {
     /**
@@ -56,23 +54,25 @@ class Weixinpay {
 
     /**
      * 退款
-     * @param transaction_id(微信订单号)、total_fee(订单总额)、refund_fee(退款金额)、out_refund_no(商户退款单号)
-     * 必须包含支付所需要的参数 mch_id(商户号)、nonce_str(随机字符串)、out_refund_no(商户退款单号)、out_trade_no(商户订单号)、refund_fee(退款金额)、total_fee(订单金额	)、transaction_id(微信订单号)、sign(签名)
+     * @param $transaction_id 微信订单号
+     * @param $total_fee 订单总金额，单位为分
+     * @param $refund_fee 退款总金额
+     * @param $out_refund_no 商户退款单号
+     * @param $out_trade_no 商户订单号
+     * @return array|bool|mixed
      */
-    public function refund($transaction_id,$total_fee,$refund_fee,$out_refund_no){
-        $nonce_str = '';
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        for ( $i = 0; $i < 4; $i++ ) {
-            $nonce_str .= substr($chars, mt_rand(0, strlen($chars)-1), 1);
-        }
+    public function refund($transaction_id,$total_fee,$refund_fee,$out_refund_no,$out_trade_no){
+        // 生成随机加密盐
+        $nonce_str = $this->makeCode(4);
         $data = [
-            'appid' => config('wxpay.APPID'),
-            'mch_id' => config('wxpay.MCHID'),
-            'nonce_str' => $nonce_str,
-            'out_refund_no' => $out_refund_no,
-            'refund_fee' => $refund_fee,
-            'total_fee' => $total_fee,
-            'transaction_id' => $transaction_id
+            'appid' => config('wxpay.APPID'),    // 公众号id
+            'mch_id' => config('wxpay.MCHID'),   // 商户号
+            'nonce_str' => $nonce_str,           // 随机字符串
+            'out_refund_no' => $out_refund_no,   // 商户退款单号(根据实际情况生成)
+            'refund_fee' => $refund_fee,         // 退款总金额，单位为分，只能比订单总金额小于或等于(可分多次退款)
+            'total_fee' => $total_fee,           // 订单总金额，单位为分
+            'transaction_id' => $transaction_id, // 微信订单号
+            'out_trade_no' => $out_trade_no      // 商户订单号，与微信订单号可二选一填写(优先使用微信订单号)
         ];
         $sign=$this->makeSign($data);
         $data['sign'] = $sign;
@@ -110,18 +110,21 @@ class Weixinpay {
 
     /**
      * 查询退款
+     * @param $transaction_id 微信订单号
+     * @param $out_trade_no 商户订单号
+     * @return array
      */
-    public function refundquery(){
+    public function refundquery($transaction_id,$out_trade_no){
         // 生成随机加密盐
         $nonce_str = $this->makeCode(4);
         // 获取配置项
         $data=array(
-            'appid' => config('wxpay.APPID'),   // 公众账号ID
-            'mch_id' => config('wxpay.MCHID'),  // 商户号
-            'nonce_str' => $nonce_str,          // 随机字符串
-            'transaction_id' => '',             // 微信订单号
-            'out_trade_no' => '',               // 商户订单号，与微信订单号可二选一只填写一个
-            'sign_type' => 'MD5'                // 加密方式
+            'appid' => config('wxpay.APPID'),    // 公众账号ID
+            'mch_id' => config('wxpay.MCHID'),   // 商户号
+            'nonce_str' => $nonce_str,           // 随机字符串
+            'transaction_id' => $transaction_id, // 微信订单号
+            'out_trade_no' => $out_trade_no,     // 商户订单号，与微信订单号可二选一填写(优先使用微信订单号)
+            'sign_type' => 'MD5'                 // 加密方式
         );
         // 加密
         $sign=$this->makeSign($data);
@@ -155,18 +158,16 @@ class Weixinpay {
     /**
      * 查询订单
      */
-    public function orderquery(){
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $nonce_str = '';
-        for ( $i = 0; $i < 4; $i++ ) {
-            $nonce_str .= substr($chars, mt_rand(0, strlen($chars)-1), 1);
-        }
+    public function orderquery($transaction_id,$out_trade_no){
+        // 生成随机加密盐
+        $nonce_str = $this->makeCode(4);
         // 获取配置项
         $data=array(
-            'appid'=>config('wxpay.APPID'),
-            'mch_id'=>config('wxpay.MCHID'),
-            'nonce_str'=>$nonce_str,
-            'transaction_id'=>'4001722001201709101302301620'
+            'appid' => config('wxpay.APPID'),    // 公众账号ID
+            'mch_id' => config('wxpay.MCHID'),   // 商户号
+            'nonce_str' => $nonce_str,           // 随机字符串
+            'transaction_id' => $transaction_id, // 微信订单号
+            'out_trade_no' => $out_trade_no      // 商户订单号,与微信订单号可二选一填写(优先使用微信订单号)
         );
         $sign=$this->makeSign($data);
         $data['sign']=$sign;
