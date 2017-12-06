@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发送邮件</title>
+</head>
+<body>
+<form action="{:url('email/send')}" method="post">
+    姓名:<input type="text" name="name"><br/>
+    地址:<input type="text" name="address"><br/>
+    邮箱:<input type="text" name="email"><br/>
+    手机号:<input type="text" name="phone"><br/>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>
