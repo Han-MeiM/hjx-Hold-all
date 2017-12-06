@@ -28,6 +28,7 @@ class Email{
             // 1 = client messages
             // 2 = client and server messages
             // 调试模式
+            // 如果开发过程中遇到发送失败的情况，请取消该行注释查看错误信息。
             //$mail->SMTPDebug = 2;
 
             //Ask for HTML-friendly debug output
