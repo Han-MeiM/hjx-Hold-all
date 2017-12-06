@@ -8,13 +8,14 @@ class Email extends Controller
     {
         if (request()->isPost()) {
             $data = input('post.');
-            // 使用定界符拼接发送的内容
+            // 拼接字符串
+            $str = '姓名:' . $data['name'] . '<br/>地址:' . $data['address'] . '<br/>手机号:' . $data['phone'];
+            // 或者使用定界符拼接发送的内容
             $str= <<<EOT
-姓名：{$data['name']} <br>
-地址：{$data['address']} <br>
-手机号：{$data['phone']}
+姓名:{$data['name']} <br>
+地址:{$data['address']} <br>
+手机号:{$data['phone']}
 EOT;
-            echo $str;
             // 发送邮箱;邮件标题;邮件内容;发件人
             $result = \phpmailer\Email::send($data['email'], '测试标题123', $str, '韩佳鑫');
             if ($result == 1) {
