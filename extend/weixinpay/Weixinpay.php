@@ -129,6 +129,7 @@ class Weixinpay {
         // 加密
         $sign=$this->makeSign($data);
         $data['sign']=$sign;
+        // 数组转xml
         $xml=$this->toXml($data);
         $url = 'https://api.mch.weixin.qq.com/pay/refundquery';//接收xml数据的文件
         $header[] = "Content-type: text/xml";//定义content-type为xml,注意是数组
@@ -169,8 +170,10 @@ class Weixinpay {
             'transaction_id' => $transaction_id, // 微信订单号
             'out_trade_no' => $out_trade_no      // 商户订单号,与微信订单号可二选一填写(优先使用微信订单号)
         );
+        // 加密
         $sign=$this->makeSign($data);
         $data['sign']=$sign;
+        // 数组转xml
         $xml=$this->toXml($data);
         $url = 'https://api.mch.weixin.qq.com/pay/orderquery';//接收xml数据的文件
         $header[] = "Content-type: text/xml";//定义content-type为xml,注意是数组
