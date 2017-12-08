@@ -8,6 +8,9 @@ class Geetest extends Controller
         return $this->fetch();
     }
 
+    /**
+     * 通过配置信息调取极验官方接口,获取极验验证码信息
+     */
     public function starCaptcha()
     {
         $GtSdk = new \geetest\geetestlib(config('geetest.CAPTCHA_ID'), config('geetest.PRIVATE_KEY'));
@@ -19,8 +22,43 @@ class Geetest extends Controller
         );
 
         $status = $GtSdk->pre_process($data, 1);
+        // 记录极验官网服务器状态
         session('gtserver',$status);
         session('user_id',$data['user_id']);
         return json($GtSdk->get_response());
+    }
+
+    /**
+     * 二次验证
+     * 获取前端提交的信息,查看验证码是否验证成功
+     */
+    public function verifyLogin()
+    {
+        $GtSdk = new \geetest\geetestlib(config('geetest.CAPTCHA_ID'), config('geetest.PRIVATE_KEY'));
+        $data = array(
+            "user_id" => session('user_id'), # 网站用户id
+            "client_type" => "web", #web:电脑上的浏览器；h5:手机上的浏览器，包括移动应用内完全内置的web_view；native：通过原生SDK植入APP应用的方式
+            "ip_address" => "127.0.0.1" # 请在此处传输用户请求验证时所携带的IP
+        );
+
+        $post_data = input('post.');
+
+        // 获取session中存储的极验官网服务器状态
+        if (session['gtserver'] == 1) {   //服务器正常
+            // 获取二次验证结果
+            $result = $GtSdk->success_validate($post_data['geetest_challenge'], $post_data['geetest_validate'], $post_data['geetest_seccode'], $data);
+            if ($result) {
+                return '{"status":"success"}';
+            } else{
+                return '{"status":"fail"}';
+            }
+        }else{  //服务器宕机,走failback模式
+            // 获取二次验证结果
+            if ($GtSdk->fail_validate($post_data['geetest_challenge'],$post_data['geetest_validate'],$post_data['geetest_seccode'])) {
+                return '{"status":"success"}';
+            }else{
+                return '{"status":"fail"}';
+            }
+        }
     }
 }
