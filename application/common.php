@@ -1,5 +1,4 @@
 <?php
-use Endroid\QrCode\QrCode;
 /**
  * curl 请求http
  */
@@ -24,13 +23,14 @@ function curl_get_contents($url){
  * @return string 二维码
  */
 function qrcode($url,$message='',$size = 300){
-    $qrCode=new QrCode();
+    $qrCode=new \Endroid\QrCode\QrCode();
     $qrCode->setText($url)
         ->setSize($size) // 大小
         ->setLabelFontPath(VENDOR_PATH.'endroid/qrcode/assets/noto_sans.otf')
         ->setErrorCorrectionLevel('high')
         ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
         ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
+        ->setLogoPath('/icon.jpg')
         ->setLabel($message) // 二维码下方注释
         ->setLabelFontSize(16);
     header('Content-Type: '.$qrCode->getContentType());
