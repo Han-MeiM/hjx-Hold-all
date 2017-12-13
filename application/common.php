@@ -32,10 +32,10 @@ function qrcode($url,$message='',$logo='',$logo_w=50,$size = 300){
         ->setErrorCorrectionLevel('high')
         ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
         ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
+        ->setLogoPath($logo) // 二维码中间logo图片
+        ->setLogoWidth($logo_w) // logo图片大小
         ->setLabel($message) // 二维码下方注释
-        ->setLogoPath($logo) // 二维码
-        ->setLogoWidth($logo_w)
-        ->setLabelFontSize(16);
+        ->setLabelFontSize(16); // 注释大小
     header('Content-Type: '.$qrCode->getContentType());
     return $qrCode->writeString();
 }
