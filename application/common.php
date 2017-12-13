@@ -22,7 +22,7 @@ function curl_get_contents($url){
  * @param int $size 二维码大小
  * @return string 二维码
  */
-function qrcode($url,$message='',$size = 300){
+function qrcode($url,$message='',$logo='',$logo_w=50,$size = 300){
     $qrCode=new \Endroid\QrCode\QrCode();
     $qrCode->setText($url)
         ->setSize($size) // 大小
@@ -30,8 +30,9 @@ function qrcode($url,$message='',$size = 300){
         ->setErrorCorrectionLevel('high')
         ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
         ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
-        ->setLogoPath('/icon.jpg')
         ->setLabel($message) // 二维码下方注释
+        ->setLogoPath($logo)
+        ->setLogoWidth($logo_w)
         ->setLabelFontSize(16);
     header('Content-Type: '.$qrCode->getContentType());
     return $qrCode->writeString();
