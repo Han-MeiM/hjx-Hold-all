@@ -17,9 +17,11 @@ function curl_get_contents($url){
 }
 
 /**
- * @param $url 二维码中的内容，加http://这样扫码可以直接跳转url
- * @param $message 二维码下方注释
+ * @param string $url 二维码中的内容，加http://这样扫码可以直接跳转url
+ * @param string $message 二维码下方注释
  * @param int $size 二维码大小
+ * @param string $logo 二维码中间logo图片
+ * @param int $logo_w 图片大小
  * @return string 二维码
  */
 function qrcode($url,$message='',$logo='',$logo_w=50,$size = 300){
@@ -31,7 +33,7 @@ function qrcode($url,$message='',$logo='',$logo_w=50,$size = 300){
         ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
         ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
         ->setLabel($message) // 二维码下方注释
-        ->setLogoPath($logo)
+        ->setLogoPath($logo) // 二维码
         ->setLogoWidth($logo_w)
         ->setLabelFontSize(16);
     header('Content-Type: '.$qrCode->getContentType());
