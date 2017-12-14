@@ -24,7 +24,8 @@
         "topthink/think-mongo": "1.*",
         "topthink/think-queue": "1.*",
         "topthink/think-image": "1.*",
-        "endroid/qrcode": "^2.4"
+        "endroid/qrcode": "^2.4",
+        "PHPOffice/PHPExcel": "^1.8"
     },
     "autoload": {
         "psr-4": {
