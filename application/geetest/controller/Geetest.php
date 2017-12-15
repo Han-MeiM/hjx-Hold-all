@@ -32,7 +32,7 @@ class Geetest extends Controller
      * 二次验证
      * 获取前端提交的信息,查看验证码是否验证成功
      */
-    public function verifyLogin()
+    public function verifyLogin($geetest_challenge,$geetest_validate,$geetest_seccode)
     {
         $GtSdk = new \geetest\geetestlib(config('geetest.CAPTCHA_ID'), config('geetest.PRIVATE_KEY'));
         $data = array(
@@ -41,23 +41,21 @@ class Geetest extends Controller
             "ip_address" => "127.0.0.1" # 请在此处传输用户请求验证时所携带的IP
         );
 
-        $post_data = input('post.');
-
         // 获取session中存储的极验官网服务器状态
         if (session('gtserver') == 1) {   //服务器正常
             // 获取二次验证结果
-            $result = $GtSdk->success_validate($post_data['geetest_challenge'], $post_data['geetest_validate'], $post_data['geetest_seccode'], $data);
+            $result = $GtSdk->success_validate($geetest_challenge, $geetest_validate, $geetest_seccode, $data);
             if ($result) {
-                return '{"status":"success"}';
+                return 'success';
             } else{
-                return '{"status":"fail"}';
+                return 'fail';
             }
         }else{  //服务器宕机,走failback模式
             // 获取二次验证结果
-            if ($GtSdk->fail_validate($post_data['geetest_challenge'],$post_data['geetest_validate'],$post_data['geetest_seccode'])) {
-                return '{"status":"success"}';
+            if ($GtSdk->fail_validate($geetest_challenge, $geetest_validate, $geetest_seccode)) {
+                return 'success';
             }else{
-                return '{"status":"fail"}';
+                return 'fail';
             }
         }
     }
