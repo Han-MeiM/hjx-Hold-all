@@ -15,11 +15,9 @@ class Login extends Controller
             ]);
             if ($result == 'success'){
                 session('user::name',$datas['user_name']);
-                $this->success('成功','login/getSession');
-                exit;
+                return 'success';
             }else{
-                $this->error('失败');
-                exit;
+                return 'fail';
             }
         }else {
             // 判断是否登陆，如果登陆了跳转到主界面
