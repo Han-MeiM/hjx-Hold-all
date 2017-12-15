@@ -39,7 +39,7 @@
     </style>
 </head>
 <body>
-<form class="popup" action="{:url('login/login')}" method="post">
+<form class="popup" method="post">
     <br>
     <p>
         <label for="username2">用户名：</label>
@@ -56,7 +56,7 @@
     <p id="notice" class="hide">请先完成验证</p>
 
     <br>
-    <input class="btn" id="embed-submit" type="submit" value="提交">
+    <input class="btn" id="embed-submit" type="button" value="提交">
 </form>
 <script src="__STATIC__/js/gt.js"></script>
 <script src="__STATIC__/js/jquery-3.2.1.min.js"></script>
@@ -99,6 +99,43 @@
             }, handlerEmbed);
         }
     });
+    $('#embed-submit').click(function () {
+        var obj = $('form').serializeArray();
+        var post_datas = new Object();
+        $.each(obj,function (i,d) {
+            post_datas[d['name']] = d['value'];
+        });
+        $.post('{:url("login/login")}',post_datas,function (result) {
+            if (result == 'success'){
+                var m_session = getCookie('PHPSESSID');
+                setCookie('PHPSESSID',m_session,36000);
+                window.location.href = '{:url("login/getSession")}'
+            }else {
+                alert('失败');
+            }
+        })
+    });
+
+    function setCookie(c_name, value, time) { //设置cookie
+        var exp = new Date();
+        exp.setTime(exp.getTime() + time);
+        document.cookie = c_name + "=" + escape(value) + ";expires =" + exp.toGMTString();
+    }
+
+    function getCookie(c_name) { //获取cookie
+        if (document.cookie.length > 0) {
+            c_start = document.cookie.indexOf(c_name + "=");
+            if (c_start != -1) {
+                c_start = c_start + c_name.length + 1;
+                c_end = document.cookie.indexOf(";", c_start);
+                if (c_end == -1) {
+                    c_end = document.cookie.length;
+                }
+                return unescape(document.cookie.substring(c_start, c_end));
+            }
+        }
+        return ""
+    }
 </script>
 </body>
 </html>
