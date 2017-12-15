@@ -44,7 +44,7 @@ class Geetest extends Controller
         $post_data = input('post.');
 
         // 获取session中存储的极验官网服务器状态
-        if (session['gtserver'] == 1) {   //服务器正常
+        if (session('gtserver') == 1) {   //服务器正常
             // 获取二次验证结果
             $result = $GtSdk->success_validate($post_data['geetest_challenge'], $post_data['geetest_validate'], $post_data['geetest_seccode'], $data);
             if ($result) {
