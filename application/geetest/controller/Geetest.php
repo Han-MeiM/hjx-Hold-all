@@ -31,6 +31,10 @@ class Geetest extends Controller
     /**
      * 二次验证
      * 获取前端提交的信息,查看验证码是否验证成功
+     * @param $geetest_challenge
+     * @param $geetest_validate
+     * @param $geetest_seccode
+     * @return string
      */
     public function verifyLogin($geetest_challenge,$geetest_validate,$geetest_seccode)
     {
