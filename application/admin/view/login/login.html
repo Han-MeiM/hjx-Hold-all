@@ -107,7 +107,9 @@
         });
         $.post('{:url("login/login")}',post_datas,function (result) {
             if (result == 'success'){
+                // 获取名为PHPSESSID的cookie
                 var m_session = getCookie('PHPSESSID');
+                // 设置PHPSESSID有效期为36000毫秒
                 setCookie('PHPSESSID',m_session,36000);
                 window.location.href = '{:url("login/getSession")}'
             }else {
@@ -116,12 +118,24 @@
         })
     });
 
-    function setCookie(c_name, value, time) { //设置cookie
+    /**
+     * 设置cookie
+     * @param c_name cookie名称
+     * @param value  cookie的值
+     * @param time   cookie有效期
+     */
+    function setCookie(c_name, value, time) {
+        //设置cookie
         var exp = new Date();
         exp.setTime(exp.getTime() + time);
         document.cookie = c_name + "=" + escape(value) + ";expires =" + exp.toGMTString();
     }
 
+    /**
+     * 获取cookie
+     * @param c_name     cookie名称
+     * @returns {string} cookie的值
+     */
     function getCookie(c_name) { //获取cookie
         if (document.cookie.length > 0) {
             c_start = document.cookie.indexOf(c_name + "=");
@@ -131,7 +145,7 @@
                 if (c_end == -1) {
                     c_end = document.cookie.length;
                 }
-                return unescape(document.cookie.substring(c_start, c_end));
+                return encodeURIComponent(document.cookie.substring(c_start, c_end));
             }
         }
         return ""
