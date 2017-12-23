@@ -8,8 +8,6 @@ class Email extends Controller
     {
         if (request()->isPost()) {
             $data = input('post.');
-            // 拼接字符串
-            $str = '姓名:' . $data['name'] . '<br/>地址:' . $data['address'] . '<br/>手机号:' . $data['phone'];
             // 或者使用定界符拼接发送的内容
             $str= <<<EOT
 姓名:{$data['name']} <br>
