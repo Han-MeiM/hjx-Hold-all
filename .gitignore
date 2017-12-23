@@ -3,3 +3,5 @@ composer.lock
 *.log
 thinkphp
 /vendor
+phpunit.xml
+/tests
