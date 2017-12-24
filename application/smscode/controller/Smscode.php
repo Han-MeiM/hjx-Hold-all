@@ -8,7 +8,8 @@ class Weixinpay extends Controller
     /**
      * 阿里大于发送短信
      */
-    public function ali_smscode(){
+    public function ali_smscode()
+    {
         $phone = 18000000000;
         // 生成一个四位随机数
         $code = mt_rand(1000,9999);
@@ -24,7 +25,8 @@ class Weixinpay extends Controller
     /**
      * 容联云发送短信
      */
-    public function rly_smscode(){
+    public function rly_smscode()
+    {
         $phone = 18000000000;
         $code = mt_rand(1000,9999);
         // 实例化类
