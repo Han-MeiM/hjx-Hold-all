@@ -1,39 +1,38 @@
 <?php
 namespace mobilecode;
-class SendCode{
-    public static function send($to,$datas,$tempId){
-        $accountSid=config('code.accountSid');
-        $accountToken=config('code.accountToken');
-        $appId=config('code.appId');
-        $serverIP=config('code.serverIP');
-        $serverPort=config('code.serverPort');
-        $softVersion=config('code.softVersion');
-        $rest = new REST($serverIP,$serverPort,$softVersion);
-        $rest->setAccount($accountSid,$accountToken);
-        $rest->setAppId($appId);
+
+class SendCode
+{
+    /**
+     * @param $to 接收手机号
+     * @param $datas 发送内容
+     * @param $tempId 模版ID
+     * @return array 返回信息
+     */
+    public static function send($to,$datas,$tempId)
+    {
+        $rest = new REST(config('code.serverIP'),config('code.serverPort'),config('code.softVersion'));
+        $rest->setAccount(config('code.accountSid'),config('code.accountToken'));
+        $rest->setAppId(config('code.appId'));
         // 发送模板短信
         $result = $rest->sendTemplateSMS($to,$datas,$tempId);
         if($result == NULL ) {
             echo "result error!";
             exit;
         }
-        if($result->statusCode!=0) {
-//            return "error code :" . $result->statusCode . "<br>";
-//            return "error msg :" . $result->statusMsg . "<br>";
+        if($result->statusCode != 0) {
             $data = array(
                 'errorcode' => $result->statusCode,
-                'errormsg'=>$result->statusMsg
+                'errormsg' => $result->statusMsg
             );
             return $data;
             //TODO 添加错误处理逻辑
         }else{
             // 获取返回信息
             $smsmessage = $result->TemplateSMS;
-//            return "dateCreated:".$smsmessage->dateCreated."<br/>";
-//            return "smsMessageSid:".$smsmessage->smsMessageSid."<br/>";
             $data = array(
                 'dateCreated' => $smsmessage->dateCreated,
-                'smsMessageSid'=>$smsmessage->smsMessageSid
+                'smsMessageSid' => $smsmessage->smsMessageSid
             );
             return $data;
             //TODO 添加成功处理逻辑
