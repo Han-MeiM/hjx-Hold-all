@@ -12,6 +12,7 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 namespace mobilecode;
+
 class REST {
 	private $AccountSid;
 	private $AccountToken;
@@ -30,7 +31,7 @@ class REST {
 		$this->ServerIP = $ServerIP;
 		$this->ServerPort = $ServerPort;
 		$this->SoftVersion = $SoftVersion;
-    $this->Handle = fopen($this->Filename, 'a');
+		$this->Handle = fopen($this->Filename, 'a');
 	}
 
    /**
@@ -40,8 +41,8 @@ class REST {
     * @param AccountToken 主帐号Token
     */    
     function setAccount($AccountSid,$AccountToken){
-      $this->AccountSid = $AccountSid;
-      $this->AccountToken = $AccountToken;   
+        $this->AccountSid = $AccountSid;
+        $this->AccountToken = $AccountToken;
     }
     
     
@@ -51,7 +52,7 @@ class REST {
     * @param AppId 应用ID
     */
     function setAppId($AppId){
-       $this->AppId = $AppId; 
+        $this->AppId = $AppId;
     }
     
    /**
@@ -59,10 +60,12 @@ class REST {
     * 
     * @param log 日志内容
     */
-    function showlog($log){
-      if($this->enabeLog){
-         fwrite($this->Handle,$log."\n");  
-      }
+    function showlog($log)
+    {
+        if($this->enabeLog){
+            fwrite($this->Handle,$log."\n");
+
+        }
     }
     
     /**
@@ -72,8 +75,8 @@ class REST {
      {
        //初始化curl
        $ch = curl_init();
-       //参数设置  
-       $res= curl_setopt ($ch, CURLOPT_URL,$url);  
+       //参数设置
+       $res= curl_setopt ($ch, CURLOPT_URL,$url);
        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
        curl_setopt ($ch, CURLOPT_HEADER, 0);
@@ -88,8 +91,8 @@ class REST {
           if($this->BodyType=='json'){
              $result = "{\"statusCode\":\"172001\",\"statusMsg\":\"网络错误\"}";
           } else {
-             $result = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><statusCode>172001</statusCode><statusMsg>网络错误</statusMsg></Response>"; 
-          }    
+             $result = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><statusCode>172001</statusCode><statusMsg>网络错误</statusMsg></Response>";
+          }
        }
 
        curl_close($ch);
