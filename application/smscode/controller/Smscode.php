@@ -1,7 +1,8 @@
 <?php
 namespace app\smscode\controller;
+
 use think\Controller;
-use think\Db;
+
 class Weixinpay extends Controller
 {
     /**
@@ -9,6 +10,7 @@ class Weixinpay extends Controller
      */
     public function ali_smscode(){
         $phone = 18000000000;
+        // 生成一个四位随机数
         $code = mt_rand(1000,9999);
         // 实例化类
         $wxpay = new \alicode\Dysms();
