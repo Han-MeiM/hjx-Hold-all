@@ -1,7 +1,6 @@
 <?php
 namespace weixinpay;
 error_reporting(E_ALL);
-ini_set('display_errors', '1');
 // 定义时区
 ini_set('date.timezone','Asia/Shanghai');
 
@@ -20,7 +19,7 @@ class Weixinpay {
             'nonce_str'=>$nonce_str,
             'spbill_create_ip'=>'192.168.0.1',
             'notify_url'=>config('wxpay.NOTIFY_URL')
-            );
+        );
         // 合并配置数据和订单数据
         $data=array_merge($order,$config);
         // 生成签名
