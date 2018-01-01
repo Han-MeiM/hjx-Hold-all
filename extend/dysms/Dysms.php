@@ -2,11 +2,8 @@
 namespace alicode;
 
 error_reporting(E_ALL);
-ini_set('display_errors', '1');
 // 定义时区
 ini_set('date.timezone','Asia/Shanghai');
-use think\Cache;
-use think\Db;
 
 class Dysms {
     /**
