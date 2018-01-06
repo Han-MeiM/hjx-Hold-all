@@ -1,7 +1,10 @@
 <?php
 namespace app\email\controller;
+
+use phpmailer\Email as EmailClass;
 use think\Controller;
 use think\Request;
+
 class Email extends Controller
 {
     public function send()
@@ -15,7 +18,7 @@ class Email extends Controller
 手机号:{$data['phone']}
 EOT;
             // 发送邮箱;邮件标题;邮件内容;发件人
-            $result = \phpmailer\Email::send($data['email'], '测试标题123', $str, '韩佳鑫');
+            $result = EmailClass::send($data['email'], '测试标题123', $str, '韩佳鑫');
             if ($result == 1) {
                 return '发送邮件成功!';
             }
