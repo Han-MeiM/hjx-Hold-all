@@ -1,6 +1,9 @@
 <?php
 namespace app\pay\controller;
+
+use weixinpay\Weixinpay as WeixinpayClass;
 use think\Controller;
+
 class Weixinpay extends Controller{
 
     /**
@@ -29,7 +32,7 @@ class Weixinpay extends Controller{
      */
     public function pay(){
         // 导入微信支付sdk
-        $wxpay=new \weixinpay\Weixinpay();
+        $wxpay=new WeixinpayClass();
         // 获取jssdk需要用到的数据
         $data=$wxpay->getParameters();
         // 将数据分配到前台页面
