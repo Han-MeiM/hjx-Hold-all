@@ -60,14 +60,14 @@ class Weixinpay extends Controller{
      */
     public function qr_pay()
     {
-        // 虚拟的订单 请根据实际业务更改
-        $time=time();
-        $order=array(
+        // 虚拟的订单号 请根据实际业务更改
+        $time = time();
+        $order = [
             'body'=>'test',
             'total_fee'=>1,
             'out_trade_no'=>strval($time),
             'product_id'=>1
-        );
+        ];
         weixinpay($order);
     }
 
