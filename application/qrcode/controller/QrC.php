@@ -1,6 +1,8 @@
 <?php
 namespace app\qrcode\controller;
+
 use think\Controller;
+
 class QrC extends Controller
 {
     public function index()
