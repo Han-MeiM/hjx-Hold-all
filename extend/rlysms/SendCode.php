@@ -1,5 +1,5 @@
 <?php
-namespace mobilecode;
+namespace rlysms;
 
 class SendCode
 {
