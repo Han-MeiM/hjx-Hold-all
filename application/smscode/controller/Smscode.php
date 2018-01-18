@@ -2,8 +2,8 @@
 namespace app\smscode\controller;
 
 use think\Controller;
-use alicode\Dysms;
-use mobilecode\SendCode;
+use dysms\Dysms;
+use rlysms\SendCode;
 
 class Weixinpay extends Controller
 {
