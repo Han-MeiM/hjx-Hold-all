@@ -1,5 +1,5 @@
 <?php
-namespace alicode;
+namespace dysms;
 
 error_reporting(E_ALL);
 // 定义时区
