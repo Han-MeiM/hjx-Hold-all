@@ -4,12 +4,14 @@ error_reporting(E_ALL);
 // 定义时区
 ini_set('date.timezone','Asia/Shanghai');
 
-class Weixinpay {
+class Weixinpay
+{
     /**
      * 统一下单
      * @param  array $order 订单 必须包含支付所需要的参数 body(产品描述)、total_fee(订单金额)、out_trade_no(订单号)、product_id(产品id)、trade_type(类型：JSAPI，NATIVE，APP)
      */
-    public function unifiedOrder($order){
+    public function unifiedOrder($order)
+    {
         // 生成随机加密盐
         $nonce_str = $this->makeCode(4);
         // 获取配置项
@@ -60,7 +62,8 @@ class Weixinpay {
      * @param $out_trade_no 商户订单号
      * @return array|bool|mixed
      */
-    public function refund($transaction_id,$total_fee,$refund_fee,$out_refund_no,$out_trade_no){
+    public function refund($transaction_id, $total_fee, $refund_fee, $out_refund_no, $out_trade_no)
+    {
         // 生成随机加密盐
         $nonce_str = $this->makeCode(4);
         $data = [
@@ -113,7 +116,8 @@ class Weixinpay {
      * @param $out_trade_no 商户订单号
      * @return array
      */
-    public function refundquery($transaction_id,$out_trade_no){
+    public function refundquery($transaction_id, $out_trade_no)
+    {
         // 生成随机加密盐
         $nonce_str = $this->makeCode(4);
         // 获取配置项
@@ -158,7 +162,8 @@ class Weixinpay {
     /**
      * 查询订单
      */
-    public function orderquery($transaction_id,$out_trade_no){
+    public function orderquery($transaction_id, $out_trade_no)
+    {
         // 生成随机加密盐
         $nonce_str = $this->makeCode(4);
         // 获取配置项
@@ -203,9 +208,10 @@ class Weixinpay {
      * 验证
      * @return array 返回数组格式的notify数据
      */
-    public function notify(){
+    public function notify()
+    {
         // 获取xml
-        $xml=file_get_contents('php://input', 'r'); 
+        $xml=file_get_contents('php://input', 'r');
         // 转成php数组
         $data=$this->toArray($xml);
         // 保存原sign
@@ -233,7 +239,8 @@ class Weixinpay {
      * 输出xml字符
      * @throws WxPayException
     **/
-    public function toXml($data){
+    public function toXml($data)
+    {
         if(!is_array($data) || count($data) <= 0){
             throw new WxPayException("数组数据异常！");
         }
@@ -246,14 +253,15 @@ class Weixinpay {
             }
         }
         $xml.="</xml>";
-        return $xml; 
+        return $xml;
     }
 
     /**
      * 生成签名
      * @return 签名，本函数不覆盖sign成员变量，如要设置签名需要调用SetSign方法赋值
      */
-    public function makeSign($data){
+    public function makeSign($data)
+    {
         // 去空
         $data=array_filter($data);
         //签名步骤一：按字典序排序参数
@@ -274,10 +282,11 @@ class Weixinpay {
      * @param  string $xml xml字符串
      * @return array       转换得到的数组
      */
-    public function toArray($xml){   
+    public function toArray($xml)
+    {
         //禁止引用外部xml实体
         libxml_disable_entity_loader(true);
-        $result= json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);        
+        $result= json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
         return $result;
     }
 
@@ -298,7 +307,8 @@ class Weixinpay {
      * 获取jssdk需要用到的数据
      * @return array jssdk需要用到的数据
      */
-    public function getParameters(){
+    public function getParameters()
+    {
         // 如果没有get参数没有code；则重定向去获取openid；
         if (!isset($_GET['code'])) {
             // 获取订单号
@@ -351,7 +361,8 @@ class Weixinpay {
      * 生成支付二维码
      * @param  array $order 订单 必须包含支付所需要的参数 body(产品描述)、total_fee(订单金额)、out_trade_no(订单号)、product_id(产品id)、trade_type(类型：JSAPI，NATIVE，APP)
      */
-    public function pay($order){
+    public function pay($order)
+    {
         $result=$this->unifiedOrder($order);
         $decodeurl=urldecode($result['code_url']);
         qrcode($decodeurl);
@@ -360,7 +371,8 @@ class Weixinpay {
     /**
      * curl 请求http
      */
-    public function curl_get_contents($url){
+    public function curl_get_contents($url)
+    {
         $ch=curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);                //设置访问的url地址
         // curl_setopt($ch,CURLOPT_HEADER,1);               //是否显示头部信息
@@ -374,4 +386,3 @@ class Weixinpay {
         return $r;
     }
 }
-
