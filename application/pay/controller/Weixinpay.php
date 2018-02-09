@@ -19,7 +19,7 @@ class Weixinpay extends Controller{
         file_put_contents('./notify.text', $data);
         // ↑↑↑上面的file_put_contents是用来简单查看异步发过来的数据 测试完可以删除；↑↑↑
         // 导入微信支付sdk
-        $wxpay=new \weixinpay\Weixinpay();
+        $wxpay=new Weixinpay();
         $result=$wxpay->notify();
         if ($result) {
             // 验证成功 修改数据库的订单状态等 $result['out_trade_no']为订单id
@@ -32,11 +32,11 @@ class Weixinpay extends Controller{
      */
     public function pay(){
         // 导入微信支付sdk
-        $wxpay=new WeixinpayClass();
+        $wxpay = new WeixinpayClass();
         // 获取jssdk需要用到的数据
-        $data=$wxpay->getParameters();
+        $data = $wxpay->getParameters();
         // 将数据分配到前台页面
-        return $this->fetch('',[
+        return $this->fetch('', [
            'data'=>json_encode($data)
         ]);
     }
@@ -47,9 +47,9 @@ class Weixinpay extends Controller{
     public function wexinpay_js(){
         // 此处根据实际业务情况生成订单 然后拿着订单去支付
         // 用时间戳虚拟一个订单号  （请根据实际业务更改）
-        $out_trade_no=time();
+        $out_trade_no = time();
         // 组合url
-        $url=url('pay/weixinpay/pay',['out_trade_no'=>$out_trade_no]);
+        $url = url('pay/weixinpay/pay',['out_trade_no'=>$out_trade_no]);
         // 前往支付
         $this->redirect($url);
     }

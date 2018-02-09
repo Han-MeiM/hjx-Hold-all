@@ -14,10 +14,10 @@ class Weixinpay extends Controller
     {
         $phone = 18000000000;
         // 生成一个四位随机数
-        $code = mt_rand(1000,9999);
+        $code = mt_rand(1000, 9999);
         // 实例化类
         $wxpay = new Dysms();
-        $result = $wxpay->send($phone,$code);
+        $result = $wxpay->send($phone, $code);
         if ($result['Code'] == 'OK') {
             echo '发送成功';
         }
@@ -29,12 +29,12 @@ class Weixinpay extends Controller
     public function rly_smscode()
     {
         $phone = 18000000000;
-        $code = mt_rand(1000,9999);
+        $code = mt_rand(1000, 9999);
         // 实例化类
         $sendcode = new SendCode();
         $tempid = 1;
         // $phone = 接收的手机号，$code = 发送的验证码，$tempid = 模版id
-        $result = $sendcode->send($phone,$code,$tempid);
+        $result = $sendcode->send($phone, $code, $tempid);
         if ($result['Code'] == 'OK') {
             echo '发送成功';
         }

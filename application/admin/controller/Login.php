@@ -15,19 +15,19 @@ class Login extends Controller
             // 获取上传的表单
             $datas = input('post.');
             // 调用极验验证码进行二次验证
-            $result = action('geetest/geetest/verifyLogin',[
+            $result = action('geetest/geetest/verifyLogin', [
                 'geetest_challenge' => $datas['geetest_challenge'],
                 'geetest_validate' => $datas['geetest_validate'],
                 'geetest_seccode' => $datas['geetest_seccode']
             ]);
             if ($result == 'success'){
                 // 保存会话
-                session('user::name',$datas['user_name']);
+                session('user::name', $datas['user_name']);
                 return 'success';
             }else{
                 return 'fail';
             }
-        }else {
+        } else {
             // 判断是否登陆，如果登陆了跳转到主界面
             if (session('user::name')){
                 $this->redirect('login/getSession');

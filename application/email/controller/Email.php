@@ -22,7 +22,7 @@ EOT;
             if ($result == 1) {
                 return '发送邮件成功!';
             }
-        }else{
+        } else {
             return $this->fetch();
         }
     }

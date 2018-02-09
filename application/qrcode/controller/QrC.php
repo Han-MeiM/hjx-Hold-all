@@ -13,7 +13,7 @@ class QrC extends Controller
     public function creQr()
     {
         // 内容,下方注释,中间logo地址,logo大小,二维码大小
-        echo qrcode('https://www.hanjiaxin.com','韩佳鑫的个人blog','icon.jpg',50);
+        echo qrcode('https://www.hanjiaxin.com', '韩佳鑫的个人blog','icon.jpg', 50);
         exit;
     }
 }

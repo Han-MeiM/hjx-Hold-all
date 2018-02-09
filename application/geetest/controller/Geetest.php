@@ -54,14 +54,14 @@ class Geetest extends Controller
             $result = $GtSdk->success_validate($geetest_challenge, $geetest_validate, $geetest_seccode, $data);
             if ($result) {
                 return 'success';
-            } else{
+            } else {
                 return 'fail';
             }
         }else{  //服务器宕机,走failback模式
             // 获取二次验证结果
             if ($GtSdk->fail_validate($geetest_challenge, $geetest_validate, $geetest_seccode)) {
                 return 'success';
-            }else{
+            } else {
                 return 'fail';
             }
         }
