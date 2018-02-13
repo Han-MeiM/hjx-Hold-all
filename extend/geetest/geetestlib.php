@@ -41,6 +41,8 @@ class GeetestLib {
     }
 
     /**
+     * 成功时返回结果
+     *
      * @param $challenge
      */
     private function success_process($challenge) {
@@ -55,6 +57,7 @@ class GeetestLib {
     }
 
     /**
+     * 失败时返回结果
      *
      */
     private function failback_process() {
@@ -71,6 +74,8 @@ class GeetestLib {
     }
 
     /**
+     * 返回json字符串
+     *
      * @return mixed
      */
     public function get_response_str() {
@@ -184,15 +189,16 @@ class GeetestLib {
             );
             $context = stream_context_create($opts);
             $data    = @file_get_contents($url, false, $context);
-            if($data){ 
+            if($data){
                 return $data;
-            }else{ 
+            }else{
                 return 0;
-            } 
+            }
         }
     }
 
     /**
+     * post请求
      *
      * @param       $url
      * @param array $postdata
@@ -245,7 +251,7 @@ class GeetestLib {
     }
 
 
-    
+
     /**
      * @param $err
      */
