@@ -4,12 +4,14 @@ namespace app\pay\controller;
 use weixinpay\Weixinpay as WeixinpayClass;
 use think\Controller;
 
-class Weixinpay extends Controller{
+class Weixinpay extends Controller
+{
 
     /**
     * notify_url接收页面
     */
-    public function notify(){
+    public function notify()
+    {
         // ↓↓↓下面的file_put_contents是用来简单查看异步发过来的数据 测试完可以删除；↓↓↓
         // 获取xml
         $xml=file_get_contents('php://input', 'r');
@@ -30,9 +32,8 @@ class Weixinpay extends Controller{
     /**
      * 公众号支付 必须以get形式传递 out_trade_no 参数
      */
-    public function pay(){
-        // 导入微信支付sdk
-        $wxpay = new WeixinpayClass();
+    public function pay(WeixinpayClass $wxpay)
+    {
         // 获取jssdk需要用到的数据
         $data = $wxpay->getParameters();
         // 将数据分配到前台页面
@@ -44,7 +45,8 @@ class Weixinpay extends Controller{
     /**
      * 微信 公众号jssdk支付 生成订单号后去调取支付
      */
-    public function wexinpay_js(){
+    public function wexinpay_js()
+    {
         // 此处根据实际业务情况生成订单 然后拿着订单去支付
         // 用时间戳虚拟一个订单号  （请根据实际业务更改）
         $out_trade_no = time();
