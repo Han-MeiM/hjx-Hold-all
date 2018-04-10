@@ -15,8 +15,8 @@ class Cors extends Controller
     {
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Credentials: true");
-        header("Access-Control-Max-Age: 1728000");
-        header("Access-Control-Request-Method: GET,POST,PUT,PATCH,DELETE");
+        header("Access-Control-Max-Age: 30");
+        header("Access-Control-Request-Methods: GET,POST,PUT,PATCH,DELETE");
 
         echo '恭喜跨域成功!';
     }
