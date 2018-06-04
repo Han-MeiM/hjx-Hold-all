@@ -13,7 +13,7 @@ class Weixinpay
     public function unifiedOrder($order)
     {
         // 生成随机加密盐
-        $nonce_str = $this->makeCode(4);
+        $nonce_str = $this->makeCode(32);
         // 获取配置项
         $config=array(
             'appid'=>config('wxpay.APPID'),
@@ -65,7 +65,7 @@ class Weixinpay
     public function refund($transaction_id, $total_fee, $refund_fee, $out_refund_no, $out_trade_no)
     {
         // 生成随机加密盐
-        $nonce_str = $this->makeCode(4);
+        $nonce_str = $this->makeCode(32);
         $data = [
             'appid' => config('wxpay.APPID'),    // 公众号id
             'mch_id' => config('wxpay.MCHID'),   // 商户号
@@ -119,7 +119,7 @@ class Weixinpay
     public function refundquery($transaction_id, $out_trade_no)
     {
         // 生成随机加密盐
-        $nonce_str = $this->makeCode(4);
+        $nonce_str = $this->makeCode(32);
         // 获取配置项
         $data=array(
             'appid' => config('wxpay.APPID'),    // 公众账号ID
@@ -165,7 +165,7 @@ class Weixinpay
     public function orderquery($transaction_id, $out_trade_no)
     {
         // 生成随机加密盐
-        $nonce_str = $this->makeCode(4);
+        $nonce_str = $this->makeCode(32);
         // 获取配置项
         $data=array(
             'appid' => config('wxpay.APPID'),    // 公众账号ID
@@ -301,6 +301,7 @@ class Weixinpay
         for ( $i = 0; $i < $count; $i++ ) {
             $nonce_str .= substr($chars, mt_rand(0, strlen($chars)-1), 1);
         }
+        return $nonce_str;
     }
 
     /**
@@ -309,7 +310,8 @@ class Weixinpay
      */
     public function getParameters()
     {
-        // 如果没有get参数没有code；则重定向去获取openid；
+        // 先判断 URL 中是否含有参数 code
+        // 如果没有则重定向至微信平台登录获取 openid
         if (!isset($_GET['code'])) {
             // 获取订单号
             $out_trade_no=input('request.out_trade_no',1,'intval');
